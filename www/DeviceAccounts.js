@@ -8,23 +8,23 @@ var deviceAccounts = {
     },
 
     getEmails: function (onSuccess, onFail) {
-        DeviceAccounts.getByType('com.google', function (accounts) {
+        cordova.exec(function (accounts) {
             var emails = [];
             for (var i in accounts) {
                 emails.push(accounts[i].name);
             }
             onSuccess(emails);
-        }, onFail);
+        }, onFail, 'DeviceAccounts', 'getDeviceAccountsByType', 'com.google');
     },
 
     getEmail: function (onSuccess, onFail) {
-        DeviceAccounts.getEmails(function (emails) {
-            if (emails && emails.length > 0) {
-                onSuccess(emails[0]);
+        cordova.exec(function (accounts) {
+            if(accounts && accounts.length > 0) {
+                onSuccess(accounts[0].name);
             } else {
                 onSuccess();
             }
-        }, onFail);
+        }, onFail, 'DeviceAccounts', 'getDeviceAccountsByType', ['com.google']);
     }
 }
 
